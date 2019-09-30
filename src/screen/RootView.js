@@ -6,6 +6,94 @@ import {CustomButton} from '../component/PycoButton';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
  
+const db = SQLite.openDatabase('pycorn.db', '1.0', '', 1);
+
+export default class RootView extends Component {
+		state = { 
+			listUser: [], 
+			noMoreCard: false 
+    };
+    
+    static navigationOptions = ({navigation}) => {
+      return {
+        title: 'Home',
+        headerLeft: (
+          <Button transparent onPress={navigation.getParam('getListUser')}>
+            <Icon name='refresh' />
+          </Button>
+        ),
+        headerRight: (
+          <Button transparent onPress={() => navigation.navigate('Favorite', {})}>
+            <Icon name='thumbs-up' />
+          </Button>
+        ),
+      }
+    };
+
+		componentDidMount() {
+      this.props.navigation.setParams({ getListUser: this.getDataFromAPi });
+			this.getDataFromAPi()
+			if( this.state.listUser.length == 0 )
+			{
+				this.setState({ noMoreCard: true });
+			}
+		}
+
+		getDataFromAPi = () => {
+			let url = "https://randomuser.me/api/0.4/?randomapi"
+			PycoApiClient.sendRequestToBackend(url, null, 'GET', this.onDataReceived)
+		}
+
+		onDataReceived = (responseData) => {
+		console.log(responseData)
+		this.setState({
+			listUser: responseData.results,
+			noMoreCard: responseData.results.length !== 0 ? false : true
+			});
+		}
+ 
+		removeCardView = (id) => {
+			this.state.listUser.splice( this.state.listUser.findIndex( x => x.id == id ), 1 );
+	
+			this.setState({ listUser: this.state.listUser }, () =>
+			{
+				if( this.state.listUser.length == 0 )
+				{
+					this.setState({ noMoreCard: true });
+				}
+			});
+    }
+    
+    onSwipeRight = (item) => {
+    }
+    
+  render() {
+    return(
+			<Container>
+					{ this.state.listUser.length > 0 && 
+						<View style = { styles.mainContainer }>
+							{
+								this.state.listUser.map(( item, key ) =>
+								(
+									<SwipeableCardView key = { key } item = { item } onSwipeRight={ this.onSwipeRight.bind(this, item) } removeCardView = { this.removeCardView.bind( this, item.id ) }/>
+								))
+							}
+						</View>
+					}
+				{
+					( this.state.noMoreCard )
+					?
+						(
+							<Text style = {{ padding: 10, alignSelf: 'center', fontSize: 22, color: '#000' }}>No More CardViews Found.</Text>
+						)
+					:
+						null
+				}
+				</Container>
+    );
+  }
+}
+
 class SwipeableCardView extends Component
 {
   constructor()
@@ -217,110 +305,24 @@ class SwipeableCardView extends Component
 							<CustomButton iconName='phone' isSelected={this.state.selectedIdx == 3 ? true : false} onPress={ () => this._onPressButton(3)}/>
 							<CustomButton iconName='lock' isSelected={this.state.selectedIdx == 4 ? true : false} onPress={ () => this._onPressButton(4)}/>
 						</View>
+
+            {( this.state.RightText ) ? (<Text style = { styles.cardRightText }> Like </Text>) : null }
+            {( this.state.LeftText ) ? (<Text style = { styles.cardLeftText }> Nope </Text>) : null}
 					</View>
       </Animated.View>
     );
   }
 }
  
-export default class RootView extends Component {
-		state = { 
-			listUser: [], 
-			noMoreCard: false 
-    };
-    
-    static navigationOptions = ({navigation}) => {
-      return {
-        title: 'Home',
-        headerLeft: (
-          <Button transparent onPress={navigation.getParam('getListUser')}>
-            <Icon name='refresh' />
-          </Button>
-        ),
-        headerRight: (
-          <Button transparent onPress={() => navigation.navigate('Favorite', {})}>
-            <Icon name='thumbs-up' />
-          </Button>
-        ),
-      }
-    };
-
-		componentDidMount() {
-      this.props.navigation.setParams({ getListUser: this.getDataFromAPi });
-			this.getDataFromAPi()
-			if( this.state.listUser.length == 0 )
-			{
-				this.setState({ noMoreCard: true });
-			}
-		}
-
-		getDataFromAPi = () => {
-			let url = "https://randomuser.me/api/0.4/?randomapi"
-			PycoApiClient.sendRequestToBackend(url, null, 'GET', this.onDataReceived)
-		}
-
-		onDataReceived = (responseData) => {
-		console.log(responseData)
-		this.setState({
-			listUser: responseData.results,
-			noMoreCard: responseData.results.length !== 0 ? false : true
-			});
-		}
- 
-		removeCardView = (id) => {
-			this.state.listUser.splice( this.state.listUser.findIndex( x => x.id == id ), 1 );
-	
-			this.setState({ listUser: this.state.listUser }, () =>
-			{
-				if( this.state.listUser.length == 0 )
-				{
-					this.setState({ noMoreCard: true });
-				}
-			});
-    }
-    
-    onSwipeRight = (item) => {
-      console.log(item)
-    }
-    
-  render() {
-    return(
-			<Container>
-					{ this.state.listUser.length > 0 && 
-						<View style = { styles.mainContainer }>
-							{
-								this.state.listUser.map(( item, key ) =>
-								(
-									<SwipeableCardView key = { key } item = { item } onSwipeRight={ this.onSwipeRight.bind(this, item) } removeCardView = { this.removeCardView.bind( this, item.id ) }/>
-								))
-							}
-						</View>
-					}
-				{
-					( this.state.noMoreCard )
-					?
-						(
-							<Text style = {{ padding: 10, alignSelf: 'center', fontSize: 22, color: '#000' }}>No More CardViews Found.</Text>
-						)
-					:
-						null
-				}
-				</Container>
-    );
-  }
-}
- 
 const styles = StyleSheet.create(
 {
-  mainContainer:
-  {
+  mainContainer: {
     flex: 1,
     alignItems: 'center',
     marginTop: 20
   },
  
-  cardView:
-  {
+  cardView: {
     width: '75%',
     justifyContent: 'center',
     position: 'absolute',
@@ -376,5 +378,21 @@ const styles = StyleSheet.create(
 		alignContent: 'center',
 		padding: 6,
 		fontSize: 20,
+  },
+  cardRightText: {
+    left: 32,
+    position: 'absolute',
+    color: 'red',
+    fontSize: 20,
+    fontWeight: 'bold',
+    backgroundColor: 'transparent'
+  },
+  cardLeftText: {
+    right: 32,
+    position: 'absolute',
+    color: 'orange',
+    fontSize: 20,
+    fontWeight: 'bold',
+    backgroundColor: 'transparent'
   },
 });
