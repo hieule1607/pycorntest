@@ -6,14 +6,17 @@
  * @flow
  */
 
-import React, { Component } from 'react';
 import RootView from './src/screen/RootView';
+import FavoriteView from './src/screen/FavoriteView';
 
-export default class App extends Component {
-  render() {
-    return (
-      <RootView/>
-    );
-  }
-}
+import {createAppContainer} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
+const MainNavigator = createStackNavigator({
+  Home: {screen: RootView},
+  Favorite: {screen: FavoriteView},
+});
+
+const App = createAppContainer(MainNavigator);
+
+export default App;

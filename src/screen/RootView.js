@@ -226,9 +226,26 @@ export default class RootView extends Component {
 		state = { 
 			listUser: [], 
 			noMoreCard: false 
-		};
-	
+    };
+    
+    static navigationOptions = ({navigation}) => {
+      return {
+        title: 'Home',
+        headerLeft: (
+          <Button transparent onPress={navigation.getParam('getListUser')}>
+            <Icon name='refresh' />
+          </Button>
+        ),
+        headerRight: (
+          <Button transparent onPress={() => navigation.navigate('Favorite', {})}>
+            <Icon name='thumbs-up' />
+          </Button>
+        ),
+      }
+    };
+
 		componentDidMount() {
+      this.props.navigation.setParams({ getListUser: this.getDataFromAPi });
 			this.getDataFromAPi()
 			if( this.state.listUser.length == 0 )
 			{
@@ -262,25 +279,10 @@ export default class RootView extends Component {
 			});
 		}
  
-  render()
-  {
+  render() {
+    const {navigate} = this.props.navigation;
     return(
-			<Container>			
-					<Header>
-						<Left>
-							<Button transparent onPress={() => this.getDataFromAPi()}>
-								<Icon name='refresh' />
-							</Button>
-						</Left>
-						<Body>
-							<Title>Header</Title>
-						</Body>
-						<Right>
-						<Button transparent onPress={() => this.getDataFromAPi()}>
-								<Icon name='thumbs-up' />
-							</Button>
-						</Right>
-					</Header>
+			<Container>
 					{ this.state.listUser.length > 0 && 
 						<View style = { styles.mainContainer }>
 							{
@@ -295,7 +297,7 @@ export default class RootView extends Component {
 					( this.state.noMoreCard )
 					?
 						(
-							<Text style = {{ fontSize: 22, color: '#000' }}>No More CardViews Found.</Text>
+							<Text style = {{ padding: 10, alignSelf: 'center', fontSize: 22, color: '#000' }}>No More CardViews Found.</Text>
 						)
 					:
 						null
