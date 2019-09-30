@@ -1,10 +1,20 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, FlatList } from 'react-native';
 
 export default class FavoriteView extends Component {
+  static navigationOptions = ({navigation}) => {
+    return {
+      title: 'Favorite',      
+    }
+  };
+
+  componentDidMount() {
+
+  }
+  
   render() {
     return (
-      <View>
+      <View style>
         <Text>This is FavoriteView</Text>
       </View>
     );

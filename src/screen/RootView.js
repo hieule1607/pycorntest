@@ -76,7 +76,7 @@ class SwipeableCardView extends Component
       {
         if( gestureState.dx < SCREEN_WIDTH - 150 && gestureState.dx > -SCREEN_WIDTH + 150 )
         {
-          
+        
           this.setState({ 
 
             LeftText: false,
@@ -114,6 +114,7 @@ class SwipeableCardView extends Component
             this.setState({ LeftText: false, RightText: false }, () =>
             {
               this.props.removeCardView();
+              this.props.onSwipeRight();
             });
           }); 
 
@@ -137,7 +138,7 @@ class SwipeableCardView extends Component
           {
             this.setState({ LeftText: false, RightText: false }, () =>
             {
-              this.props.removeCardView();
+              this.props.removeCardView();              
             });
           });          
         }
@@ -266,8 +267,7 @@ export default class RootView extends Component {
 			});
 		}
  
-		removeCardView =(id)=>
-		{
+		removeCardView = (id) => {
 			this.state.listUser.splice( this.state.listUser.findIndex( x => x.id == id ), 1 );
 	
 			this.setState({ listUser: this.state.listUser }, () =>
@@ -277,10 +277,13 @@ export default class RootView extends Component {
 					this.setState({ noMoreCard: true });
 				}
 			});
-		}
- 
+    }
+    
+    onSwipeRight = (item) => {
+      console.log(item)
+    }
+    
   render() {
-    const {navigate} = this.props.navigation;
     return(
 			<Container>
 					{ this.state.listUser.length > 0 && 
@@ -288,7 +291,7 @@ export default class RootView extends Component {
 							{
 								this.state.listUser.map(( item, key ) =>
 								(
-									<SwipeableCardView key = { key } item = { item } removeCardView = { this.removeCardView.bind( this, item.id ) }/>
+									<SwipeableCardView key = { key } item = { item } onSwipeRight={ this.onSwipeRight.bind(this, item) } removeCardView = { this.removeCardView.bind( this, item.id ) }/>
 								))
 							}
 						</View>
@@ -327,27 +330,6 @@ const styles = StyleSheet.create(
     shadowOpacity: 0.8,
   },
  
-  Left_Text_Style:
-  {
-    top: 22,
-    right: 32,
-    position: 'absolute',
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: 'bold',
-    backgroundColor: 'transparent'
-  },
- 
-  Right_Text_Style:
-  {
-    top: 22,
-    left: 32,
-    position: 'absolute',
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: 'bold',
-    backgroundColor: 'transparent'
-	},
 	bottomContainer: {
 		alignItems: 'center',
 		flexDirection: 'row',
@@ -385,13 +367,14 @@ const styles = StyleSheet.create(
     height: 1
   },
   titleText: {
-    fontSize: 14
+    fontSize: 15,
+    color: 'rgb(153, 153, 153)'
   },
   contentText: {
 		flex: 1,
 		flexWrap: 'wrap',
 		alignContent: 'center',
-		padding: 10,
-		fontSize: 18,
+		padding: 6,
+		fontSize: 20,
   },
 });
