@@ -4,13 +4,14 @@ import { View, StyleSheet, Image } from 'react-native';
 
 export const CustomImage = (props) => {
 
-  const { uri , styleView} = props;
+  const { uri , styleView } = props;
 
   return (
-    <View style={[ styleView, styles.avatarConner]}>
+    <View style={[ styleView, styles.avatarConner, {borderRadius: styleView.width}]}>
         <Image
-        style={styles.avatarImag}
-        source={{uri : uri}} />
+        style={[styles.avatarImag, {borderRadius: (styleView.width * 0.9 / 2)}]}
+        source={{uri : uri}} 
+        imageStyle={{resizeMode: 'cover'}}/>
     </View>
   );
 };
@@ -21,14 +22,13 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         alignItems: "center",
         justifyContent: "center",
-        borderRadius: 55,
         backgroundColor: "white",
         borderWidth: 1,
         borderColor: '#d6d7da',
         },
 
     avatarImag: {
-        flex: 0.9,
-        borderRadius: 50
+        width: '90%',
+        height: '90%',       
         },
 })
