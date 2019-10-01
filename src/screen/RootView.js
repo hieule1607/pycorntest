@@ -32,7 +32,11 @@ export default class RootView extends Component {
       }
     };
 
-		componentDidMount() {
+    componentWillMount() {
+      db.initDB() // init local db for the first time launch app
+    }
+
+		componentDidMount() {      
       this.props.navigation.setParams({ getListUser: this.getDataFromAPi });
 			this.getDataFromAPi()
 			if( this.state.listUser.length == 0 )
