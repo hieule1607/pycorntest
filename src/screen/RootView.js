@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { Platform, StyleSheet, View, Text, Dimensions, Animated, PanResponder, Image } from 'react-native';
 import { Container, Header, Left, Body, Right, Button, Icon, Title } from 'native-base';
 import PycoApiClient from '../NetworkService';
-import {CustomButton} from '../component/PycoButton';
+import { CustomButton } from '../component/PycoButton';
+import { CustomImage } from '../component/PycoImage';
+import Database from '../Database';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
- 
-const db = SQLite.openDatabase('pycorn.db', '1.0', '', 1);
+const db = new Database();
 
 export default class RootView extends Component {
 		state = { 
@@ -14,6 +15,7 @@ export default class RootView extends Component {
 			noMoreCard: false 
     };
     
+
     static navigationOptions = ({navigation}) => {
       return {
         title: 'Home',
@@ -65,6 +67,11 @@ export default class RootView extends Component {
     }
     
     onSwipeRight = (item) => {
+      db.addPycoUser(item).then((result) => {
+        console.log(result)
+      }).catch((err) => {
+        console.log(err)
+      })
     }
     
   render() {
@@ -94,8 +101,7 @@ export default class RootView extends Component {
   }
 }
 
-class SwipeableCardView extends Component
-{
+class SwipeableCardView extends Component {
   constructor()
   {
     super();
@@ -288,11 +294,7 @@ class SwipeableCardView extends Component
         ]}>
 					<View style={{marginTop: 80, backgroundColor: 'white'}}>
 						<View style={styles.separatorView}></View>
-						<View style={[styles.avatarConner, {marginTop: -70}]}>
-							<Image
-							style={styles.avatarImag}
-							source={{uri : item.user.picture}} />
-						</View>
+            <CustomImage styleView={styles.styleView} uri={item.user.picture}/>
 						<View style={{alignItems: 'center', paddingVertical: 20}}>	
 							<Text style={styles.titleText}>{this.state.title}</Text>
 							<Text style={styles.contentText}>{this.state.content}</Text>
@@ -313,9 +315,8 @@ class SwipeableCardView extends Component
     );
   }
 }
- 
-const styles = StyleSheet.create(
-{
+
+const styles = StyleSheet.create( {
   mainContainer: {
     flex: 1,
     alignItems: 'center',
@@ -346,23 +347,7 @@ const styles = StyleSheet.create(
 		marginTop: 20,
 		marginLeft: 20,
 		marginRight: 20    
-  },
-  avatarConner: {
-    alignSelf: 'center',
-    alignItems: "center",
-    justifyContent: "center",
-    height: 110,
-    width: 110,
-    borderRadius: 55,
-    backgroundColor: "white",
-    borderWidth: 1,
-    borderColor: '#d6d7da',
-  },
-  avatarImag: {
-    height: 100,
-    width: 100,
-    borderRadius: 50
-  },
+  },    
 
   separatorView: {
     backgroundColor: 'rgb(228,228,228)',
@@ -395,4 +380,9 @@ const styles = StyleSheet.create(
     fontWeight: 'bold',
     backgroundColor: 'transparent'
   },
+  styleView: {
+    width: 110, 
+    height: 110, 
+    marginTop: -70
+  }
 });
