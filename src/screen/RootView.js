@@ -248,7 +248,6 @@ class SwipeableCardView extends Component {
 		this.setState({
 			selectedIdx: idx
 		})		
-		this._setDataToView(idx)
 	}
 
 	_setDataToView = () => {
