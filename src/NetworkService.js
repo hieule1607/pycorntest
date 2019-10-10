@@ -1,25 +1,22 @@
 
 var PycoApiClient = {
-  sendRequestToBackend: function(url, param, type, onDataReceived) {
-    //Will update for method POST later
-    fetch(url, {
+
+  async sendRequestToBackend(url, param, type, onDataReceived) {
+    try {
+      let response = await fetch(url, {
         method: type,
         headers: {
-           'Accept': 'application/json',
-           'Content-Type': 'application/json',
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
         body: (type != "GET") ? JSON.stringify(param) : null,
-    })
-    .then((response) => response.json())
-    .then((responseData) => {
-        onDataReceived(responseData)
-    })
-    .catch((error) => {
-        console.warn(error);
-    })
-    .done();
-  },
-
+      })
+      let responseJson = await response.json()
+      return onDataReceived(responseJson)
+    } catch (error) {
+      console.warn(error)
+    }
+  }
 }
 
 module.exports = PycoApiClient;

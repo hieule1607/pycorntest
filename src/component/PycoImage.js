@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, StyleSheet, Image } from 'react-native';
 
-
-export const CustomImage = (props) => {
+const CustomImage = (props) => {
 
   const { uri , styleView } = props;
 
@@ -32,3 +31,5 @@ const styles = StyleSheet.create({
         height: '90%',       
         },
 })
+
+export default CustomImage

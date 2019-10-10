@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PycoImage Component should render correctly 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "height": 110,
+        "marginTop": -70,
+        "width": 110,
+      },
+      Object {
+        "alignItems": "center",
+        "alignSelf": "center",
+        "backgroundColor": "white",
+        "borderColor": "#d6d7da",
+        "borderWidth": 1,
+        "flex": 1,
+        "justifyContent": "center",
+      },
+      Object {
+        "borderRadius": 110,
+      },
+    ]
+  }
+>
+  <Image
+    imageStyle={
+      Object {
+        "resizeMode": "cover",
+      }
+    }
+    source={
+      Object {
+        "uri": "http://api.randomuser.me/portraits/men/92.jpg",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "height": "90%",
+          "width": "90%",
+        },
+        Object {
+          "borderRadius": 49.5,
+        },
+      ]
+    }
+  />
+</View>
+`;

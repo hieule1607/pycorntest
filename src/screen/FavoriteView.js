@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text, FlatList } from 'react-native';
 import { ListItem } from 'native-base';
 import Database from '../Database';
-import { CustomImage } from "../component/PycoImage";
+import CustomImage from "../component/PycoImage";
 const db = new Database();
 export default class FavoriteView extends Component {
 

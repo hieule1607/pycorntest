@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import SlIcon from 'react-native-vector-icons/SimpleLineIcons';
 import AntIcon from 'react-native-vector-icons/AntDesign';
 
-export const CustomButton = (props) => {
+const CustomButton = (props) => {
 
   const { isSelected, iconName = 'lock', onPress } = props;
 
@@ -28,3 +28,5 @@ const styles = StyleSheet.create({
     backgroundColor: 'white'
   },
 })
+
+export default CustomButton
