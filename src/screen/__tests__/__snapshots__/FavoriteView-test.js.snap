@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`FavoriteView Component should render correctly 1`] = `
+<View>
+  <Text
+    style={
+      Object {
+        "color": "red",
+        "fontSize": 18,
+        "padding": 16,
+      }
+    }
+  />
+</View>
+`;
+
+exports[`FavoriteView Component should rendered Flatlist 1`] = `ShallowWrapper {}`;

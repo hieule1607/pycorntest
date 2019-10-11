@@ -181,72 +181,72 @@ export default class SwipeableCardView extends Component {
 }
 
 const styles = StyleSheet.create({
-    mainContainer: {
-        flex: 1,
-        alignItems: 'center',
-        marginTop: 20
-      },
-     
-    cardView: {
+  cardView: {
     width: '75%',
     justifyContent: 'center',
     position: 'absolute',
-        borderRadius: 2,
-        shadowColor: 'rgb(217, 217, 217)',
+    borderRadius: 2,
+    shadowColor: 'rgb(217, 217, 217)',
     shadowOffset: { width: 0, height: 2},
     shadowOpacity: 0.8,
-    },
+  },
     
-    bottomContainer: {
-        alignItems: 'center',
-        flexDirection: 'row',
-        alignSelf: 'center'
-        },
-    buttonIcon: {
-        backgroundColor: 'rgb(217, 217, 217)',
-        fontSize: 30
-    },
-    cardContainer: {
-        backgroundColor: 'rgb(249, 249, 249)',
-        marginTop: 20,
-        marginLeft: 20,
-        marginRight: 20    
-    },    
+  bottomContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    alignSelf: 'center'
+  },
+    
+  buttonIcon: {
+    backgroundColor: 'rgb(217, 217, 217)',
+    fontSize: 30
+  },
+  cardContainer: {
+    backgroundColor: 'rgb(249, 249, 249)',
+    marginTop: 20,
+    marginLeft: 20,
+    marginRight: 20    
+  },    
 
-    separatorView: {
+  separatorView: {
     backgroundColor: 'rgb(228,228,228)',
     height: 1
-    },
-    titleText: {
+  },
+  
+  titleText: {
     fontSize: 15,
     color: 'rgb(153, 153, 153)'
-    },
-    contentText: {
-        flex: 1,
-        flexWrap: 'wrap',
-        alignContent: 'center',
-        padding: 6,
-        fontSize: 20,
-    },
-    cardRightText: {
+  },
+  
+  contentText: {
+    flex: 1,
+    flexWrap: 'wrap',
+    alignContent: 'center',
+    padding: 6,
+    fontSize: 20,
+  },
+  
+  cardRightText: {
     left: 32,
     position: 'absolute',
     color: 'red',
     fontSize: 20,
     fontWeight: 'bold',
     backgroundColor: 'transparent'
-    },
-    cardLeftText: {
+  },
+  
+  cardLeftText: {
     right: 32,
     position: 'absolute',
     color: 'orange',
     fontSize: 20,
     fontWeight: 'bold',
     backgroundColor: 'transparent'
-    },
-    styleView: {
-        width: 110, 
-        height: 110, 
-        marginTop: -70
-      }
+  },
+  
+  styleView: {
+    width: 110, 
+    height: 110, 
+    marginTop: -70
+  }
 })

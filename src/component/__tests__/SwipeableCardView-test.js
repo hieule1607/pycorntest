@@ -1,6 +1,5 @@
 import React from 'react';
 import CustomButton from '../PycoButton';
-import CustomImage from '../PycoImage';
 import renderer from 'react-test-renderer';
 import { shallow } from 'enzyme';
 import SwipeableCardView from '../SwipeableCardView';
@@ -58,5 +57,17 @@ describe(`SwipeableCardView Component`, () => {
 
         wrapper.find(CustomButton).at(4).simulate('press')
         expect(instance.state.selectedIdx).toBe(4)
+    })
+
+    it('should call props func', () => {
+        const removeCardView = jest.fn()
+        const onSwipeRight = jest.fn()
+        const wrapper = shallow(<SwipeableCardView {...props} removeCardView={removeCardView} onSwipeRight={onSwipeRight}/>);
+        const instance = wrapper.instance()
+        instance.props.removeCardView()
+        expect(removeCardView).toHaveBeenCalled()
+
+        instance.props.onSwipeRight(instance.props.item)
+        expect(onSwipeRight).toHaveBeenCalled()
     })
 })
